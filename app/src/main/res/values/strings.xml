@@ -8,5 +8,6 @@
         <item>UK</item>
         <item>Canada</item>
     </string-array>
+    <string name="title_activity_add_word">AddWordActivity</string>
 
 </resources>
