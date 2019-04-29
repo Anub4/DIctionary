@@ -1,5 +1,6 @@
 package np.com.softwarica.dictionary;
 
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -38,14 +39,22 @@ public class AddWordActivity extends AppCompatActivity {
     }
 
     private void Save() {
-        try {
-            PrintStream printStream = new PrintStream(openFileOutput("words.txt", MODE_PRIVATE | MODE_APPEND));
-            printStream.println(etWord.getText().toString() + "->" + etMeaning.getText().toString());
-            printStream.close();
-            Toast.makeText(this,"Saved to" + getFilesDir(), Toast.LENGTH_LONG).show();
-        } catch (IOException e) {
-            Log.d("Dictionary app", "Message error" + e.toString());
-            e.printStackTrace();
+//        try {
+//            PrintStream printStream = new PrintStream(openFileOutput("words.txt", MODE_PRIVATE | MODE_APPEND));
+//            printStream.println(etWord.getText().toString() + "->" + etMeaning.getText().toString());
+//            printStream.close();
+//            Toast.makeText(this,"Saved to" + getFilesDir(), Toast.LENGTH_LONG).show();
+//        } catch (IOException e) {
+//            Log.d("Dictionary app", "Message error" + e.toString());
+//            e.printStackTrace();
+//        }
+
+        final MyHelper myHelper = new MyHelper(this);
+        final SQLiteDatabase sqLiteDatabase = myHelper.getWritableDatabase();
+        if(myHelper.InsertData(etWord.getText().toString(), etMeaning.getText().toString(), sqLiteDatabase)){
+            Toast.makeText(this, "1 Row Inserted", Toast.LENGTH_SHORT).show();
+        }else{
+            Toast.makeText(this, "Failed to insert data.", Toast.LENGTH_SHORT).show();
         }
     }
 
